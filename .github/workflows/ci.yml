@@ -3,7 +3,7 @@ name: 1. CI - Integração Contínua
 on:
   push:
     branches-ignore:
-      - 'main' # Deixa a main exclusiva para o CD se preferir, ou tire essa regra para rodar em todas
+      - 'main'
   pull_request:
     branches: [ main ]
 
