@@ -1,0 +1,50 @@
+name: 2. CD - Entrega Contínua
+
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+
+  deploy-homologacao:
+    name: 🧪 Deploy em Homologação
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 2.1.1. Checkout do Código
+      uses: actions/checkout@v4
+
+    - name: 2.1.2. Preparar Ambiente de Testes Integrados
+      run: |
+        echo "Configurando variáveis do ambiente de Homologação (Banco de Testes)..."
+
+    - name: 2.1.3. Publicar em Homologação
+      run: |
+        echo "--------------------------------------------------------"
+        echo " Enviando arquivos para o servidor de Homologação..."
+        echo " Aplicando nova versão para validação do time de QA/Produto."
+        echo " URL: https://homologacao.techstore.internal"
+        echo "--------------------------------------------------------"
+
+  deploy-producao:
+    name: 🚀 Deploy em Produção
+    needs: deploy-homologacao
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 2.2.1. Checkout do Código Aprovado
+      uses: actions/checkout@v4
+
+    - name: 2.2.2. Validar Mudança de Ambiente
+      run: |
+        echo "Chaves de Homologação validadas. Virando chaves para Produção..."
+
+    - name: 2.2.3. Publicar em Produção Final
+      run: |
+        echo "--------------------------------------------------------"
+        echo " Executando Deploy em Produção Final (Zero Downtime)!"
+        echo " Aplicação disponível globalmente para os clientes."
+        echo "========================================================"
+        echo " 🎉 E-COMMERCE ONLINE COM SUCESSO!"
+        echo "========================================================"
