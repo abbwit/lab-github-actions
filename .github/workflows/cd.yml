@@ -1,7 +1,8 @@
 name: 2. CD - Entrega Contínua
+
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   deploy-homologacao:
