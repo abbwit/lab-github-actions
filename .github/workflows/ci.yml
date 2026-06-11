@@ -2,10 +2,10 @@ name: 1. CI - Integração Contínua
 
 on:
   push:
-    branches-ignore:
-      - 'main'
+#    branches-ignore:
+#      - 'main'
   pull_request:
-    branches: [ main ]
+    branches: [ feature/0.0.1 ]
 
 jobs:
   validacao:
