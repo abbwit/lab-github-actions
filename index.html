@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore - Produção via GitHub Actions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans flex flex-col justify-between min-h-screen">
+
+    <header class="bg-blue-600 text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-tight">TechStore 🚀</h1>
+            <div class="relative">
+                <button class="flex items-center space-x-2 bg-blue-700 px-4 py-2 rounded-lg hover:bg-blue-800 transition">
+                    <span>🛒 Carrinho</span>
+                    <span id="cart-count" class="bg-yellow-400 text-gray-900 font-bold px-2 py-0.5 rounded-full text-xs">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-10 flex-grow">
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-extrabold text-gray-800">Nossos Produtos</h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8" id="products-grid">
+            
+            <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between hover:shadow-lg transition">
+                <div class="p-6">
+                    <img src="https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=500&q=80" 
+                         alt="Notebook" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Notebook Cloud Pro</h3>
+                    <p class="text-gray-600 text-sm mt-2">Perfeito para desenvolvedores e SREs que buscam alta performance.</p>
+                </div>
+                <div class="p-6 pt-0 flex justify-between items-center bg-gray-50 border-t border-gray-100">
+                    <span class="text-2xl font-bold text-blue-600">R$ 4.999</span>
+                    <button onclick="addToCart()" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition">Adicionar</button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between hover:shadow-lg transition">
+                <div class="p-6">
+                    <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=500&q=80" 
+                         alt="Monitor" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Monitor UltraWide 34"</h3>
+                    <p class="text-gray-600 text-sm mt-2">Mais espaço de tela para monitorar seus pipelines e dashboards.</p>
+                </div>
+                <div class="p-6 pt-0 flex justify-between items-center bg-gray-50 border-t border-gray-100">
+                    <span class="text-2xl font-bold text-blue-600">R$ 2.499</span>
+                    <button onclick="addToCart()" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition">Adicionar</button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between hover:shadow-lg transition">
+                <div class="p-6">
+                    <img src="https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?auto=format&fit=crop&w=500&q=80" 
+                         alt="Teclado" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Teclado Mecânico RGB</h3>
+                    <p class="text-gray-600 text-sm mt-2">Conforto tátil para longas jornadas de automação e código.</p>
+                </div>
+                <div class="p-6 pt-0 flex justify-between items-center bg-gray-50 border-t border-gray-100">
+                    <span class="text-2xl font-bold text-blue-600">R$ 599</span>
+                    <button onclick="addToCart()" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition">Adicionar</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-400 py-6 text-center border-t border-gray-700">
+        <p class="text-sm">&copy; 2026 TechStore. Deploy realizado com sucesso via GitHub Actions.</p>
+    </footer>
+
+    <script>
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('/api/carrinho');
+                const data = await response.json();
+                document.getElementById('cart-count').innerText = data.quantidadeTotal;
+            } catch (error) {
+                console.error("Erro ao sincronizar com o backend:", error);
+            }
+        });
+
+        async function addToCart(id, nome) {
+            try {
+                const response = await fetch('/api/carrinho/adicionar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ produtoId: id, nome: nome })
+                });
+
+                const resultado = await response.json();
+                
+                if (resultado.sucesso) {
+                    // Atualiza a interface com o dado que veio do servidor
+                    document.getElementById('cart-count').innerText = resultado.quantidadeTotal;
+                }
+            } catch (error) {
+                alert("Erro ao conectar com o servidor backend!");
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>
