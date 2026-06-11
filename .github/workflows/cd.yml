@@ -1,12 +1,10 @@
 name: 2. CD - Entrega Contínua
 
-
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
-
   deploy-homologacao:
     name: 🧪 Deploy em Homologação
     runs-on: ubuntu-latest
