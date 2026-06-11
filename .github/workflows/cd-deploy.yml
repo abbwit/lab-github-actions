@@ -33,7 +33,7 @@ jobs:
     name: 🧪 Deploy em Homologação
     needs: [ dev, qa ]
     runs-on: ubuntu-latest
-    environment: production
+    environment: prod
     
     steps:
       - name: 2.1.1. Checkout do Código
