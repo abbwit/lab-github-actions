@@ -6,7 +6,9 @@ on:
 #      - 'main'
   pull_request:
     branches: [ feature/0.0.1 ]
-
+    
+  workflow_dispatch:
+  
 jobs:
   validacao:
     name: Steps de Teste e Qualidade
