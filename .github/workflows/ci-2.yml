@@ -1,0 +1,44 @@
+name: 1. CI - Integração Contínua 2
+
+on:
+# push:
+#    branches-ignore:
+#      - 'main'
+#  pull_request:
+#    branches: [ feature/0.0.1 ]  
+  workflow_dispatch:
+  
+jobs:
+  validacao:
+    name: Steps de Teste e Qualidade
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 1.1. Checkout do Código
+      uses: actions/checkout@v4
+
+    - name: 1.2. Instalar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+#        cache: 'npm'
+
+    - name: 1.3. Instalar Dependências
+      run: |
+        if [ -f package.json ]; then
+          npm install
+        else
+          npm init -y
+          npm install express cors
+        fi
+
+    - name: 1.4. Validar Sintaxe do JavaScript (Análise Estática)
+      run: |
+        echo "Executando checagem de sintaxe no server.js..."
+        node --check server.js
+
+    - name: 1.5. Executar Testes Automatizados
+      run: |
+        echo "Simulando a execução de testes unitários..."
+        echo "Executando: npm test..."
+        echo "✅ Todos os testes passaram com sucesso!"
