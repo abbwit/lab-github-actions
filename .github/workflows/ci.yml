@@ -1,11 +1,11 @@
 name: 1. CI - Integração Contínua
 
 on:
-  push:
+ # push:
 #    branches-ignore:
 #      - 'main'
-  pull_request:
-    branches: [ feature/0.0.1 ]
+#  pull_request:
+#    branches: [ feature/0.0.1 ]
     
   workflow_dispatch:
   
